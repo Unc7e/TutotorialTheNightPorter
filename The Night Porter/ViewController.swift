@@ -34,20 +34,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let myCell = UITableViewCell()
         
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = dailyTasks[indexPath.row]
+            myCell.textLabel?.text = dailyTasks[indexPath.row]
         case 1:
-            cell.textLabel?.text = weeklyTasks[indexPath.row]
+            myCell.textLabel?.text = weeklyTasks[indexPath.row]
         case 2:
-            cell.textLabel?.text = monthlyTasks[indexPath.row]
+            myCell.textLabel?.text = monthlyTasks[indexPath.row]
         default:
-            cell.textLabel?.text = "This shouldn't have happened."
+            myCell.textLabel?.text = "This shouldn't have happened."
         }
         
-        return cell
+        myCell.imageView?.image = #imageLiteral(resourceName: "clock")
+        myCell.accessoryType = .disclosureIndicator
+        
+        return myCell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
