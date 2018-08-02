@@ -87,7 +87,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.title = "First ViewController"
+        self.title = "TableView Demo"
     }
 
     override func didReceiveMemoryWarning() {
