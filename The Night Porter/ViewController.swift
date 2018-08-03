@@ -10,6 +10,24 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var taskTableView: UITableView!
+    
+    @IBAction func resetList(_ sender: Any) {
+        for i in 0..<self.dailyTasks.count{
+            self.dailyTasks[i].completed = false
+        }
+        
+        for i in 0..<self.weeklyTasks.count{
+            self.weeklyTasks[i].completed = false
+        }
+        
+        for i in 0..<self.monthlyTasks.count{
+            self.monthlyTasks[i].completed = false
+        }
+        
+        taskTableView.reloadData()
+    }
+    
     // Table View Delegate Methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You selected row \(indexPath.row) in section \(indexPath.section)")
@@ -111,7 +129,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         Task(name:"Is the boiler fueled?",type: .daily, completed:false, lastCompleted:nil),
         Task(name: "Check the mailbox", type: .daily, completed: false, lastCompleted: nil),
         Task(name: "Empty trash containers", type: .daily, completed: false, lastCompleted: nil),
-        Task(name: "If freezing, check water pipes", type: .daily, completed: true, lastCompleted: nil),
+        Task(name: "If freezing, check water pipes", type: .daily, completed: false, lastCompleted: nil),
         Task(name:"Document \"strange and unusual\" occurences", type: .daily, completed:false, lastCompleted:nil)
     ]
     
