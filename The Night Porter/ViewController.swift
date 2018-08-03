@@ -33,22 +33,59 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let completeAction = UIContextualAction(style: .normal, title: "Complete") { (action: UIContextualAction, sourceView: UIView, actionPerformed: (Bool)->Void) in
+            
+            // find the right object and set it to completed
+            switch indexPath.section{
+            case 0:
+                self.dailyTasks[indexPath.row].completed = true
+            case 1:
+                self.weeklyTasks[indexPath.row].completed = true
+            case 2:
+                self.monthlyTasks[indexPath.row].completed = true
+            default:
+                break
+            }
+            
+            tableView.reloadData()
+            
+            actionPerformed(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [completeAction])
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = UITableViewCell()
         
+        // to hold the current task
+        var currentTask: Task!
+        
         switch indexPath.section {
         case 0:
-            myCell.textLabel?.text = dailyTasks[indexPath.row]
+            currentTask = dailyTasks[indexPath.row]
         case 1:
-            myCell.textLabel?.text = weeklyTasks[indexPath.row]
+            currentTask = weeklyTasks[indexPath.row]
         case 2:
-            myCell.textLabel?.text = monthlyTasks[indexPath.row]
+            currentTask = monthlyTasks[indexPath.row]
         default:
-            myCell.textLabel?.text = "This shouldn't have happened."
+            break
         }
         
-        myCell.imageView?.image = #imageLiteral(resourceName: "clock")
-        myCell.accessoryType = .disclosureIndicator
+        // use the name property to set the value of the cell
+        myCell.textLabel!.text = currentTask.name
+        
+        if currentTask.completed{
+            myCell.textLabel?.textColor = UIColor.lightGray
+            myCell.accessoryType = .checkmark
+        }else{
+            myCell.textLabel?.textColor = UIColor.black
+            myCell.accessoryType = .none
+        }
+        
+        // clear out the background
+        myCell.backgroundColor = UIColor.clear
         
         return myCell
     }
@@ -68,28 +105,34 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     // Create [String] arrays of tasks
-    let dailyTasks = ["Check all windows",
-                      "Check all doors",
-                      "Is the boiler fueled",
-                      "Check the mailbox",
-                      "Empty trash containers",
-                      "If freezing, check water pipes",
-                      "Document \"strange and unusual\" occurences",]
+    var dailyTasks = [
+        Task(name: "Check all windows", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "Check all doors", type: .daily, completed: false, lastCompleted:nil),
+        Task(name:"Is the boiler fueled?",type: .daily, completed:false, lastCompleted:nil),
+        Task(name: "Check the mailbox", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "Empty trash containers", type: .daily, completed: false, lastCompleted: nil),
+        Task(name: "If freezing, check water pipes", type: .daily, completed: true, lastCompleted: nil),
+        Task(name:"Document \"strange and unusual\" occurences", type: .daily, completed:false, lastCompleted:nil)
+    ]
     
-    let weeklyTasks = ["Check inside all cabins",
-                       "Flush all lavatories in cabins",
-                       "Walk the perimeter of property",]
+    var weeklyTasks = [
+        Task(name: "Check inside all cabins", type:.weekly, completed:false, lastCompleted: nil),
+        Task(name: "Flush all lavatories in cabins", type: .weekly, completed: false, lastCompleted: nil),
+        Task(name: "Walk the perimeter of property", type: .weekly, completed: false, lastCompleted: nil)
+    ]
     
-    let monthlyTasks = ["Test security alarm",
-                        "Test motion detectors",
-                        "Test smoke alarms"]
+    var monthlyTasks = [
+        Task(name: "Test security alarm", type:.monthly, completed: false, lastCompleted: nil),
+        Task(name: "Test motion detectors", type: .monthly, completed: false, lastCompleted: nil),
+        Task(name: "Test smoke alarms", type: .monthly, completed: false, lastCompleted: nil)
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.title = "TableView Demo"
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

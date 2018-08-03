@@ -10,6 +10,16 @@ import UIKit
 
 class SecondViewController: UIViewController {
 
+    @IBAction func toggleDarkMode(_ sender: Any) {
+        let mySwitch = sender as! UISwitch
+        
+        if mySwitch.isOn{
+            view.backgroundColor = UIColor.darkGray
+        }else{
+            view.backgroundColor = UIColor.green
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
